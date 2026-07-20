@@ -6,12 +6,12 @@ Gem::Specification.new do |spec|
   spec.name          = 'mediawiki_api'
   spec.version       = MediawikiApi::VERSION
   spec.authors       = [
-    'Amir Aharoni', 'Asaf Bartov', 'Chris McMahon', 'Dan Duvall', 'Jeff Hall', 'Juliusz Gonera',
-    'Zeljko Filipin'
+    'Alex Dean', 'Amir Aharoni', 'Asaf Bartov', 'Chris McMahon', 'Dan Duvall', 'Jeff Hall',
+    'Juliusz Gonera', 'Zeljko Filipin'
   ]
   spec.email         = [
-    'amir.aharoni@mail.huji.ac.il', 'asaf.bartov@gmail.com', 'cmcmahon@wikimedia.org',
-    'dduvall@wikimedia.org', 'jhall@wikimedia.org', 'jgonera@wikimedia.org',
+    'wikimedia@mostlyalex.com', 'amir.aharoni@mail.huji.ac.il', 'asaf.bartov@gmail.com',
+    'cmcmahon@wikimedia.org', 'dduvall@wikimedia.org', 'jhall@wikimedia.org', 'jgonera@wikimedia.org',
     'zeljko.filipin@gmail.com'
   ]
   spec.summary       = 'A library for interacting with MediaWiki API from Ruby.'
@@ -23,9 +23,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(/^(test|spec|features)/)
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'faraday', '~> 0.9', '>= 0.9.0'
-  spec.add_runtime_dependency 'faraday-cookie_jar', '~> 0.0', '>= 0.0.6'
-  spec.add_runtime_dependency 'faraday_middleware', '~> 0.10', '>= 0.10.0'
+  # Allow faraday 1.x (needed to remediate CVE-2026-54297 in the consuming app).
+  # Capped below 2.0 because the client DSL (multipart/url_encoded requests,
+  # FaradayMiddleware::FollowRedirects, Faraday::UploadIO) is faraday-1.x-era.
+  spec.add_runtime_dependency 'faraday', '>= 0.9', '< 2.0'
+  spec.add_runtime_dependency 'faraday-cookie_jar', '>= 0.0.6', '< 1.0'
+  spec.add_runtime_dependency 'faraday_middleware', '>= 0.10', '< 2.0'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rake', '~> 0'
